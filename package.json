@@ -1,0 +1,22 @@
+{
+  "name": "yaca",
+  "version": "0.0.1",
+  "description": "yet another commenting app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcusdarmstrong/yaca.git"
+  },
+  "author": "marmstrong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/marcusdarmstrong/yaca/issues"
+  },
+  "homepage": "https://github.com/marcusdarmstrong/yaca#readme",
+  "engines": {
+    "node": "11.13.0"
+  },
+}
