@@ -3,12 +3,12 @@
 const host = document.createElement('div');
 document.querySelector('script[src*="yaca-web"]').after(host);
 
-const socket = new WebSocket('ws://yaca-web.herokuapp.com');
+const socket = new WebSocket('wss://yaca-web.herokuapp.com');
 
 socket.addEventListener('open', function (event) {
-    console.log('Connected to server!')
+  host.insertAdjacentHTML('beforeend', 'Connected to server.');
 });
 
 socket.addEventListener('message', function (event) {
-    console.log('Message from server ', event.data);
+  host.insertAdjacentHTML('beforeend', 'Message from server ' + event.data);
 });
