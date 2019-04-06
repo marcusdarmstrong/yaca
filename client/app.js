@@ -29,21 +29,23 @@ const Pingback = React.memo(({ socket }) => {
 
   useEffect(() => {
     const listener = event => { setTime(event.data); };
+    const closeListener = evt => { setTime(null); };
     socket.addEventListener('message', listener);
-    return () => socket.removeEventListener('message', listener);
-  }, [socket]);
+    socket.addEventListener('close', closeListener);
+    return () => {
+      socket.removeEventListener('message', listener);
+      socket.removeEventListener('close', closeListener);
+    }
+  }, [socket, setTime]);
 
-  const [ log, setLog ] = useState([]);
   const [ isHidden, setHidden ] = useState(false);
   useEffect(() => {
     const listener = (e) => {
-      console.log("Firing" + Object.entries(e));
-      setLog(log.concat([document.visibilityState]));
       setHidden(document.hidden);
     };
     document.addEventListener('visibilitychange', listener);
     return () => document.removeEventListener('visibilitychange', listener);
-  }, [log, setLog]);
+  }, [setHidden]);
 
   return (
     <div>
@@ -54,7 +56,6 @@ const Pingback = React.memo(({ socket }) => {
       }
       <div>
         <span>Document is {isHidden ? "hidden" : "visible"}</span>
-        {log.map(l => <p>{l}</p>)}
       </div>
     </div>
   );
