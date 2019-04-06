@@ -7,5 +7,9 @@ export default ({ host, path, socket }) => {
     socket.addEventListener('message', listener);
     return () => socket.removeEventListener('message', listener);
   }, [socket]);
-  return <div>The server says the time is {time}</div>
+  return (
+    time 
+      ? <div>Connecting to the server...</div>
+      : <div>The server says the time is {time}</div>
+  );
 };
