@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Timestamp = React.Memo(({ time }) => {
+const Timestamp = React.memo(({ time }) => {
   // This should self-update with the time.
   return time.toString();
 });
@@ -24,7 +24,7 @@ const Message = React.memo(({ author, timestamp, body }) => {
   );
 });
 
-const Pingback = React.Memo(({ socket }) => {
+const Pingback = React.memo(({ socket }) => {
   const [ time, setTime ] = useState(null);
 
   useEffect(() => {
