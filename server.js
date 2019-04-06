@@ -5,7 +5,7 @@ const port = process.env.PORT || 3000;
 const server = express();
 server.set("x-powered-by", false);
 server.use("/client/", express.static("client/dist"));
-server.get("*", (req, res) => {
+server.get("/", (req, res) => {
   res.send(`<!doctype html><html>
 <head><title>Commenting</title></head>
 <body>
