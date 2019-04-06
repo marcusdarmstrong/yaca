@@ -4,7 +4,7 @@
   "description": "yet another commenting app",
   "main": "server.js",
   "scripts": {
-    "build": "rollup ./client/index.js --file ./client/dist/bundle.js --format iife"
+    "build": "rollup -c client/rollup.config.js"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,15 @@
     "node": "11.13.0"
   },
   "devDependencies": {
-    "rollup": "^1.9.0"
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-react": "^7.0.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "rollup": "^1.9.0",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-node-resolve": "^4.1.0"
   },
   "dependencies": {
     "express": "^4.16.4",
