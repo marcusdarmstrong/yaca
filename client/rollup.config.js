@@ -12,7 +12,7 @@ export default {
   plugins: [
     replace({
       'process.env.NODE_ENV': JSON.stringify('production')
-    })
+    }),
     resolve(),
     babel({
       exclude: 'node_modules/**' // only transpile our source code
