@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-const Timestamp = ({ time }) => {
+const Timestamp = React.Memo(({ time }) => {
   // This should self-update with the time.
   return time.toString();
-}
+});
 
 const Message = React.memo(({ author, timestamp, body }) => {
   return (
@@ -24,7 +24,7 @@ const Message = React.memo(({ author, timestamp, body }) => {
   );
 });
 
-export default ({ host, path, socket }) => {
+const Pingback = React.Memo(({ socket }) => {
   const [ time, setTime ] = useState(null);
 
   useEffect(() => {
@@ -33,6 +33,31 @@ export default ({ host, path, socket }) => {
     return () => socket.removeEventListener('message', listener);
   }, [socket]);
 
+  const [ log, setLog ] = useState([]);
+
+  useEffect(() => {
+    const listener = () => {
+      setLog(log.concat(document.visibilityState));
+    };
+    document.addEventListener('visibilitychange', listener);
+    return () => document.removeEventListener('visibilitychange', listener);
+  }, []);
+
+  return (
+    <div>
+      {
+        !time 
+          ? <div>Connecting to the server...</div>
+          : <div>The server says the time is {time}</div>
+      }
+      <div>
+        {log.map(l => <p>{l}</p>)};
+      </div>
+    </div>
+  );
+});
+
+export default ({ host, path, socket }) => {
   const [ state, setState ] = useState(null);
 
   useEffect(() => {
@@ -61,9 +86,7 @@ export default ({ host, path, socket }) => {
 
   return (
     <>
-      {!time 
-        ? <div>Connecting to the server...</div>
-        : <div>The server says the time is {time}</div>}
+      <Pingback socket={socket} />
       {state && state.payload &&
         <Message author={state.payload[0].author} timestamp={new Date()} body={state.payload[0].body} />}
     </>
