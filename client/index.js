@@ -6,9 +6,9 @@ document.querySelector('script[src*="yaca-web"]').after(host);
 const socket = new WebSocket('wss://yaca-web.herokuapp.com');
 
 socket.addEventListener('open', function (event) {
-  host.insertAdjacentHTML('beforeend', 'Connected to server.');
+  host.insertAdjacentHTML('beforeend', '<p>Connected to server from ${document.location}.</p>');
 });
 
 socket.addEventListener('message', function (event) {
-  host.insertAdjacentHTML('beforeend', 'Message from server ' + event.data);
+  host.insertAdjacentHTML('beforeend', '<p>Message from server ' + event.data + '</p>');
 });
