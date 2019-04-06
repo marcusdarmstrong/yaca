@@ -42,7 +42,7 @@ const Pingback = React.memo(({ socket }) => {
     };
     document.addEventListener('visibilitychange', listener);
     return () => document.removeEventListener('visibilitychange', listener);
-  }, []);
+  }, [log, setLog]);
 
   return (
     <div>
