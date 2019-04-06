@@ -33,9 +33,10 @@
     "rollup-plugin-terser": "^4.0.4"
   },
   "dependencies": {
-    "express": "^4.16.4",
-    "ws": "^6.2.1",
     "bufferutil": "^4.0.1",
-    "utf-8-validate": "^5.0.2"
+    "compression": "^1.7.4",
+    "express": "^4.16.4",
+    "utf-8-validate": "^5.0.2",
+    "ws": "^6.2.1"
   }
 }

@@ -1,0 +1,16 @@
+{
+	"next": "GUID",
+	"payload": [
+		{
+			"id": "???",
+			"clientId": "GUID",
+			"author": {
+				"id": "GUID",
+				"name": "Marcus",
+				"avatar": ""
+			},
+			"body": ["Hello World"],
+			"timestamp": "XXX"
+		}
+	]
+}

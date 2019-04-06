@@ -10,7 +10,7 @@ document.querySelector('script[src*="yaca-web"]').after(host);
 ReactDom.render(
   <Yaca
     host={window.location.host}
-    path={window.location.path}
+    path={window.location.path || '/'}
     socket={new WebSocket('wss://yaca-web.herokuapp.com')}
   />,
   host

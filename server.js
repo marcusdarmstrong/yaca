@@ -1,13 +1,15 @@
 const http = require("http")
 const express = require('express');
+var compression = require('compression');
 const SocketServer = require('ws').Server;
 
 const port = process.env.PORT || 3000;
 const app = express();
 app.set("x-powered-by", false);
+app.use(compression())
 app.use("/client/", express.static("client/dist"));
 app.get('/latest', (req, res) => {
-  res.send(`{"foo":"bar"}`);
+  res.send(JSON.stringify(require('./sample.json')));
 });
 app.get('/', (req, res) => {
   res.send(`<!doctype html><html>
