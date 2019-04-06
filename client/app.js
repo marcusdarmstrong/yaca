@@ -37,7 +37,7 @@ const Pingback = React.memo(({ socket }) => {
 
   useEffect(() => {
     const listener = (e) => {
-      console.log("Firing" + e);
+      console.log("Firing" + Object.entries(e));
       setLog(log.concat([document.visibilityState]));
     };
     document.addEventListener('visibilitychange', listener);
