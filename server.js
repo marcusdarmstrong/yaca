@@ -6,7 +6,10 @@ const port = process.env.PORT || 3000;
 const app = express();
 app.set("x-powered-by", false);
 app.use("/client/", express.static("client/dist"));
-app.use((req, res) => {
+app.get('/latest', (req, res) => {
+  res.send(`{"foo":"bar"}`);
+});
+app.get('/', (req, res) => {
   res.send(`<!doctype html><html>
 <head><title>Commenting</title></head>
 <body>

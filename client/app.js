@@ -9,7 +9,31 @@ export default ({ host, path, socket }) => {
     return () => socket.removeEventListener('message', listener);
   }, [socket]);
 
+  const [ state, setState ] = useState(null);
 
+  useEffect(() => {
+    const controller = new AbortController();
+
+    fetch(
+      `https://yaca-web.herokuapp.com/latest?host=${
+        encodeURIComponent(host)
+      }&path=${
+        encodeURIComponent(path)
+      }`,
+      {
+        signal: controller.signal,
+        credentials: 'include'
+      }
+    ).then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+    }).then(initialState => {
+      setState(initialState);
+    });
+
+    return () => { controller.abort(); };
+  }, [host, path]);
 
   return (
     !time 
