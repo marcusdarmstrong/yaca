@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const Timestamp = ({ time }) => {
   // This should self-update with the time.
-  return time;
+  return time.toString();
 }
 
 const Message = React.memo(({ author, timestamp, body }) => {
