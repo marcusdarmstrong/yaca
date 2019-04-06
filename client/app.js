@@ -38,7 +38,7 @@ const Pingback = React.memo(({ socket }) => {
   useEffect(() => {
     const listener = () => {
       console.log("Firing");
-      setLog(log.concat(document.visibilityState));
+      setLog(log.concat([document.visibilityState]));
     };
     document.addEventListener('visibilitychange', listener);
     return () => document.removeEventListener('visibilitychange', listener);
@@ -52,7 +52,7 @@ const Pingback = React.memo(({ socket }) => {
           : <div>The server says the time is {time}</div>
       }
       <div>
-        {log.map(l => <p>{l}</p>)};
+        {log.map(l => <p>{l}</p>)}
       </div>
     </div>
   );
