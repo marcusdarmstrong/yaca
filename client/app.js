@@ -90,7 +90,10 @@ const Form = () => {
   const [ username, setUsername ] = useState("");
   return (
     <div>
-      <form onSubmit={() => submit(username, comment)}>
+      <form onSubmit={e => {
+        e.preventDefault();
+        submit(username, comment);
+      }}>
         <textarea name="comment" onChange={e => setComment(e.target.value)} />
         <input type="text" name="username" onChange={e => setUsername(e.target.value)} />
         <input type="submit" name="submit" value="Add Comment" />
