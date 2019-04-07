@@ -1,8 +1,41 @@
 import React, { useState, useEffect } from 'react';
+import guid from './guid';
+
+const getNextTimeout = ms => {
+  if (ms < 1000*60*60) {
+    return 1000*28;
+  }
+  if (ms < 1000*60*60*12) {
+    return 1000*60*30;
+  }
+  return null;
+}
 
 const Timestamp = React.memo(({ time }) => {
-  // This should self-update with the time.
-  return new Date(time).toString();
+  const [ ms, setMs ] = useState(Date.now() - time);
+  useEffect(() => {
+    const nextTimeout = getNextTimeout(ms);
+    if (nextTimeout) {
+      const timeout = setTimeout(() => {
+        setMs(Date.now() - time);
+      }, nextTimeout);
+
+      return () => { clearTimeout(timeout); };
+    }
+  }, [ms, setMs]);
+
+
+  if (ms < 1000*60) {
+    return "Just now";
+  }
+  if (ms < 1000*60*60) {
+    return `${Math.round(ms/(1000*60))} minutes ago`;
+  }
+  if (ms < 1000*60*60*12) {
+    return `${Math.round(ms/(1000*60*60))} hours ago`;
+  }
+
+  return new Date(timestamp).toLocaleString();
 });
 
 const Message = React.memo(({ author, timestamp, body }) => {
@@ -86,17 +119,7 @@ const Pingback = React.memo(({ socket }) => {
   );
 });
 
-const guid = () => {
-    let d = new Date().getTime();
-    if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
-        d += performance.now();
-    }
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-        let r = (d + Math.random() * 16) % 16 | 0;
-        d = Math.floor(d / 16);
-        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-    });
-}
+
 
 const submit = (username, comment) => {
   const params = new URLSearchParams();
