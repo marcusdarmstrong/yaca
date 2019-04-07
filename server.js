@@ -32,7 +32,7 @@ wss.on('connection', (ws) => {
 setInterval(() => {
   wss.clients.forEach((client) => {
     client.send(JSON.stringify({
-      type: 'ping'
+      type: 'ping',
       value: new Date().toTimeString()
     }));
   });
