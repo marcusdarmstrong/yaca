@@ -28,7 +28,14 @@ const Pingback = React.memo(({ socket }) => {
   const [ time, setTime ] = useState(null);
 
   useEffect(() => {
-    const listener = event => { setTime(event.data); };
+    const listener = event => { 
+      const message = JSON.parse(event.data);
+      if (message.type === 'ping') {
+        setTime(message.value);
+      } else {
+        console.log(message);
+      }
+    };
     const closeListener = evt => { setTime(null); };
     socket.addEventListener('message', listener);
     socket.addEventListener('close', closeListener);

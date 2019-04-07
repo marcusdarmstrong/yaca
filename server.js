@@ -31,14 +31,20 @@ wss.on('connection', (ws) => {
 
 setInterval(() => {
   wss.clients.forEach((client) => {
-    client.send(new Date().toTimeString());
+    client.send(JSON.stringify({
+      type: 'ping'
+      value: new Date().toTimeString()
+    });
   });
 }, 1000);
 
 
 app.post('/api/add-comment', (req, res) => {
   wss.clients.forEach((client) => {
-    client.send(req.body);
+    client.send(JSON.stringify({
+      type: 'comment',
+      value: req.body,
+    });
   });
   res.status(200).end(req.body);
 });
