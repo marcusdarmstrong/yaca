@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 
 const Timestamp = React.memo(({ time }) => {
   // This should self-update with the time.
-  return time.toString();
+  return new Date(time).toString();
 });
 
 const Message = React.memo(({ author, timestamp, body }) => {
   return (
-    <div>
+    <p>
       <div>
         <span>{author.name}</span>
         <span><Timestamp time={timestamp} /></span>
@@ -20,30 +20,36 @@ const Message = React.memo(({ author, timestamp, body }) => {
           return null;
         })}
       </div>
-    </div>
+    </p>
   );
 });
 
 const Pingback = React.memo(({ socket }) => {
   const [ time, setTime ] = useState(null);
 
+  const [ comments, setComments] = useState([]);
+
+  const listener = event => { 
+    const message = JSON.parse(event.data);
+    if (message.type === 'ping') {
+      setTime(message.value);
+    } else if (message.type === 'comment') {
+      setComments(comments.concat([message.value]));
+    } else {
+      console.log(message);
+    }
+  };
+
+  const closeListener = evt => { setTime(null); };
+
   useEffect(() => {
-    const listener = event => { 
-      const message = JSON.parse(event.data);
-      if (message.type === 'ping') {
-        setTime(message.value);
-      } else {
-        console.log(message);
-      }
-    };
-    const closeListener = evt => { setTime(null); };
     socket.addEventListener('message', listener);
     socket.addEventListener('close', closeListener);
     return () => {
       socket.removeEventListener('message', listener);
       socket.removeEventListener('close', closeListener);
     }
-  }, [socket, setTime]);
+  }, [socket]);
 
   const [ isHidden, setHidden ] = useState(false);
   useEffect(() => {
@@ -63,6 +69,18 @@ const Pingback = React.memo(({ socket }) => {
       }
       <div>
         <span>Document is {isHidden ? "hidden" : "visible"}</span>
+      </div>
+      <div>
+        {
+          comments.map(comment => (
+            <Message
+              key={comment.clientId}
+              author={{name: comment.username}}
+              body={comment.comment}
+              timestamp={comment.timestamp}
+            />
+          ))
+        }
       </div>
     </div>
   );
@@ -102,7 +120,7 @@ const Form = () => {
         submit(username, comment);
       }}>
         <textarea name="comment" onChange={e => setComment(e.target.value)} />
-        <input type="text" name="username" onChange={e => setUsername(e.target.value)} />
+        <input type="text" name="username" placeholder="username" onChange={e => setUsername(e.target.value)} />
         <input type="submit" name="submit" value="Add Comment" />
       </form>
     </div>
@@ -138,10 +156,10 @@ export default ({ host, path, socket }) => {
 
   return (
     <>
-      <Pingback socket={socket} />
       <Form />
-      {state && state.payload &&
-        <Message author={state.payload[0].author} timestamp={new Date()} body={state.payload[0].body} />}
+      <Pingback socket={socket} />
+      {/*state && state.payload &&
+        <Message author={state.payload[0].author} timestamp={new Date()} body={state.payload[0].body} />*/}
     </>
   );
 };
