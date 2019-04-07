@@ -7,20 +7,20 @@ const Timestamp = React.memo(({ time }) => {
 
 const Message = React.memo(({ author, timestamp, body }) => {
   return (
-    <p>
+    <div>
       <div>
         <span>{author.name}</span>
         <span><Timestamp time={timestamp} /></span>
       </div>
-      <div>
+      <p>
         {body.map(i => {
           if (typeof i === 'string') {
             return i;
           }
           return null;
         })}
-      </div>
-    </p>
+      </p>
+    </div>
   );
 });
 
@@ -77,7 +77,7 @@ const Pingback = React.memo(({ socket }) => {
               key={comment.clientId}
               author={{name: comment.username}}
               body={[comment.comment]}
-              timestamp={comment.timestamp}
+              timestamp={parseInt(comment.timestamp, 10)}
             />
           ))
         }
