@@ -28,9 +28,15 @@ const Timestamp = React.memo(({ time }) => {
   if (ms < 1000*60) {
     return "Just now";
   }
+  if (ms < 1000*60*1.5) {
+    return "1 minute ago";
+  }
   if (ms < 1000*60*60) {
     return `${Math.round(ms/(1000*60))} minutes ago`;
   }
+  if (ms < 1000*60*60*1.5) {
+    return "1 hour ago";
+  } 
   if (ms < 1000*60*60*12) {
     return `${Math.round(ms/(1000*60*60))} hours ago`;
   }
