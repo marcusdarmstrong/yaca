@@ -12,7 +12,7 @@ export default {
   },
   plugins: [
     replace({
-      'process.env.NODE_ENV': JSON.stringify('production')
+      'process.env.NODE_ENV': process.env.NODE_ENV
     }),
     resolve(),
     babel({
@@ -24,6 +24,6 @@ export default {
         'node_modules/react/index.js': ['useState', 'useEffect']
       }
     }),
-    terser(),
+    process.env.NODE_ENV === 'production' ? terser() : null,
   ]
 };
