@@ -76,7 +76,7 @@ const Pingback = React.memo(({ socket }) => {
             <Message
               key={comment.clientId}
               author={{name: comment.username}}
-              body={comment.comment}
+              body={[comment.comment]}
               timestamp={comment.timestamp}
             />
           ))
