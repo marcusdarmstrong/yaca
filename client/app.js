@@ -29,27 +29,27 @@ const Pingback = React.memo(({ socket }) => {
 
   const [ comments, setComments] = useState([]);
 
-  const listener = event => { 
-    const message = JSON.parse(event.data);
-    if (message.type === 'ping') {
-      setTime(message.value);
-    } else if (message.type === 'comment') {
-      setComments(comments.concat([message.value]));
-    } else {
-      console.log(message);
-    }
-  };
-
-  const closeListener = evt => { setTime(null); };
-
   useEffect(() => {
+    const listener = event => { 
+      const message = JSON.parse(event.data);
+      if (message.type === 'ping') {
+        setTime(message.value);
+      } else if (message.type === 'comment') {
+        setComments(comments.concat([message.value]));
+      } else {
+        console.log(message);
+      }
+    };
+
+    const closeListener = evt => { setTime(null); };
+
     socket.addEventListener('message', listener);
     socket.addEventListener('close', closeListener);
     return () => {
       socket.removeEventListener('message', listener);
       socket.removeEventListener('close', closeListener);
     }
-  }, [socket]);
+  }, [socket, comments, setComments, setTime]);
 
   const [ isHidden, setHidden ] = useState(false);
   useEffect(() => {
