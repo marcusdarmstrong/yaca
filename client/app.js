@@ -120,8 +120,8 @@ const Form = () => {
         submit(username, comment);
         setComment('');
       }}>
-        <textarea name="comment" onChange={e => setComment(e.target.value)} />
-        <input type="text" name="username" placeholder="username" onChange={e => setUsername(e.target.value)} />
+        <textarea name="comment" onChange={e => setComment(e.target.value)}>{comment}</textarea>
+        <input type="text" name="username" placeholder="username" onChange={e => setUsername(e.target.value)} value={username} />
         <input type="submit" name="submit" value="Add Comment" />
       </form>
     </div>
