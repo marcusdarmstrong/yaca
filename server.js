@@ -43,7 +43,7 @@ app.post('/api/add-comment', (req, res) => {
   wss.clients.forEach((client) => {
     client.send(JSON.stringify({
       type: 'comment',
-      value: req.body,
+      value: req.body
     });
   });
   res.status(200).end(req.body);
