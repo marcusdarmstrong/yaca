@@ -82,10 +82,10 @@ const guid = () => {
 
 const submit = (username, comment) => {
   const params = new URLSearchParams();
-  params.username = username;
-  params.comment = comment;
-  params.clientId = guid();
-  params.timestamp = Date.now();
+  params.set("username", username);
+  params.set("comment", comment);
+  params.set("clientId", guid());
+  params.set("timestamp", Date.now());
   fetch(`https://yaca-web.herokuapp.com/api/add-comment`, {
     method: 'POST',
     body: params

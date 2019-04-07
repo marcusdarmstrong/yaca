@@ -1,6 +1,7 @@
 const http = require("http")
 const express = require('express');
-var compression = require('compression');
+const compression = require('compression');
+const bodyParser = require('body-parser');
 const SocketServer = require('ws').Server;
 
 const port = process.env.PORT || 3000;
@@ -8,6 +9,9 @@ const app = express();
 app.set("x-powered-by", false);
 app.use(compression())
 app.use("/client/", express.static("client/dist"));
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.get('/latest', (req, res) => {
   res.send(JSON.stringify(require('./sample.json')));
 });
@@ -46,7 +50,7 @@ app.post('/api/add-comment', (req, res) => {
       value: req.body
     }));
   });
-  res.status(200).end(req.body);
+  res.status(200).json(req.body);
 });
 
 

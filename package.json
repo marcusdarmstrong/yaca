@@ -33,6 +33,7 @@
     "rollup-plugin-terser": "^4.0.4"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "bufferutil": "^4.0.1",
     "compression": "^1.7.4",
     "express": "^4.16.4",
