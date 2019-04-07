@@ -34,7 +34,7 @@ setInterval(() => {
     client.send(JSON.stringify({
       type: 'ping'
       value: new Date().toTimeString()
-    });
+    }));
   });
 }, 1000);
 
@@ -44,7 +44,7 @@ app.post('/api/add-comment', (req, res) => {
     client.send(JSON.stringify({
       type: 'comment',
       value: req.body
-    });
+    }));
   });
   res.status(200).end(req.body);
 });
