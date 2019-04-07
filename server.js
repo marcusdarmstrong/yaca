@@ -11,6 +11,7 @@ app.use("/client/", express.static("client/dist"));
 app.get('/latest', (req, res) => {
   res.send(JSON.stringify(require('./sample.json')));
 });
+
 app.get('/', (req, res) => {
   res.send(`<!doctype html><html>
 <head><title>Commenting</title></head>
@@ -21,8 +22,6 @@ app.get('/', (req, res) => {
 });
 
 const server = http.createServer(app);
-server.listen(port, () => console.log(`Yaca listening on port ${port}!`));
-
 const wss = new SocketServer({ server });
 
 wss.on('connection', (ws) => {
@@ -35,3 +34,15 @@ setInterval(() => {
     client.send(new Date().toTimeString());
   });
 }, 1000);
+
+
+app.post('/api/add-comment', (req, res) => {
+  wss.clients.forEach((client) => {
+    client.send(req.body);
+  });
+  res.status(200).end(req.body);
+});
+
+
+
+server.listen(port, () => console.log(`Yaca listening on port ${port}!`));
