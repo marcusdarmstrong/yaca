@@ -35,7 +35,7 @@ const Pingback = React.memo(({ socket }) => {
       if (message.type === 'ping') {
         setTime(message.value);
       } else if (message.type === 'comment') {
-        setComments(comments.concat([message.value]));
+        setComments([message.value, ...comments]);
       } else {
         console.log(message);
       }
@@ -118,6 +118,7 @@ const Form = () => {
       <form onSubmit={e => {
         e.preventDefault();
         submit(username, comment);
+        setComment('');
       }}>
         <textarea name="comment" onChange={e => setComment(e.target.value)} />
         <input type="text" name="username" placeholder="username" onChange={e => setUsername(e.target.value)} />
